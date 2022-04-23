@@ -160,7 +160,7 @@ udpServer.on('message', function(data, info) {
             transferData(clientIp, _relayPort, data);
         });
     } else {
-        transferData(_host, _relayPort, data);
+        transferData(match.getHost(), _relayPort, data);
     }
 
     match.logActivity();

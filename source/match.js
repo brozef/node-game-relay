@@ -27,6 +27,10 @@ class Match {
         return this._clients;
     }
 
+    getHost() {
+        return this._host;
+    }
+
     getAllUserIps() {
         let users = [this._host];
         users.push(this._clients);
@@ -58,7 +62,7 @@ class Match {
     }
 
     addClient(ipAddress) {
-        if (!this.hasClient(ipAddress)) {
+        if (ipAddress != this._host && !this.hasClient(ipAddress)) {
             this._clients.push(ipAddress);
         }
         this.logActivity();
