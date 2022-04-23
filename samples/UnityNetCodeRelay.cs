@@ -36,9 +36,10 @@ public class UnityNetCodeRelay : MonoBehaviour
         });
     }
 
-    public void Host(System.Action<string> callback)
+    public void Host(bool publicMatch, System.Action<string> callback)
     {
-        string body = "{\"appId\":\""+AppId+"\",\"method\":\"create\"}";
+        // publicMatch will determine if this match will be visible in List responses
+        string body = "{\"appId\":\""+AppId+"\",\"method\":\"create\",\"public\":"+publicMatch+"}";
         StartCoroutine(Post(body, (success, responseString) => {
             if (success && responseString != "")
             {

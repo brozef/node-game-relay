@@ -23,7 +23,7 @@ function generateMatchId() {
     return matchId;
 }
 
-function createMatch(hostIp, appId) {
+function createMatch(hostIp, appId, public) {
     let matchId = generateMatchId(); //create a unique code for this match
     let match = new Match(appId, matchId, hostIp, false);
     _matches[matchId] = match;
@@ -31,7 +31,7 @@ function createMatch(hostIp, appId) {
     return matchId;
 }
 
-function joinMatch(clientIp, matchId) {
+function joinMatch(clientIp, appId, matchId) {
     let match = null;
     if (matchId == null || matchId == '') { // if matchId is empty, find a match for them
         match = Object.values(_matches).find(m => m.isOpen() && m.isPublic());
@@ -39,7 +39,7 @@ function joinMatch(clientIp, matchId) {
         match = _matches[matchId];
     }
 
-    if (match == null) return false;
+    if (match == null || match.getAppId() != appId) return false;
 
     _clients[clientIp] = matchId;
     match.addClient(clientIp);
@@ -103,10 +103,10 @@ const requestListener = async function (req, res) {
         const clientIp = req.socket.remoteAddress;
         switch(json.method) {
             case 'create':
-                body = JSON.stringify({matchId: createMatch(clientIp)});
+                body = JSON.stringify({matchId: createMatch(clientIp, json.appId, json.public)});
                 break;
             case 'join':
-                body = JSON.stringify({success: joinMatch(clientIp, json.matchId)});
+                body = JSON.stringify({success: joinMatch(clientIp, json.appId, json.matchId)});
                 break;
             case 'list':
                 body = JSON.stringify({list: listMatches(json.appId)});
