@@ -121,7 +121,7 @@ const requestListener = async function (req, res) {
 };
 
 const httpServer = http.createServer(requestListener);
-httpServer.listen(8080, 'localhost', () => {
+httpServer.listen(8080, () => {
     console.log(`HTTP listening on port: 8080`);
 });
 
