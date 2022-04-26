@@ -14,7 +14,7 @@ public class UnityNetCodeRelay : MonoBehaviour
 {
     public string AppId = "test";
     public string ServerAddress = "127.0.0.1";
-    public string ServerPort = "8080";
+    public string ServerPort = "8080"; // used for auth / match operations not udp relay
 
     struct RelayResponse {
         public string matchId;
